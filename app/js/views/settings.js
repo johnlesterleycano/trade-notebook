@@ -9,7 +9,7 @@ const f = (path, label, value, hint = "", step = "any") => `<div class="field"><
 const rate = (path, label, v, hint) => f(path, label + " (%)", pctOut(v), hint);
 
 export function settingsView() {
-  const s = S.settings, ph = s.rates.ph, us = s.rates.us, theme = window.tradeTheme?.get() || "system";
+  const s = S.settings, ph = s.rates.ph, us = s.rates.us, theme = window.tradeTheme?.get() || "dark";
   const main = `<section class="card sec"><div class="card-head"><h2>Your trading money</h2></div>
       <div class="form-grid">
         ${f("capital", "Trading money (₱)", s.capital || "", "Only money you can afford to lose. Used to size positions.")}
@@ -33,7 +33,7 @@ export function settingsView() {
         ${rate("rates.us.fxSpread", "Currency conversion cost", us.fxSpread, "Gap between Gotrade's rate and the market rate")}
         ${rate("rates.us.withholding", "US dividend withholding", us.withholding, "25% for Philippine residents with a W-8BEN")}
       </div></section>`;
-  const rail = `<section class="card panel"><h2>Appearance</h2><div class="field"><label for="theme">Theme</label><select id="theme" data-act="theme">${[["system", "Match device"], ["light", "Light"], ["dark", "Dark"]].map(([v, l]) => `<option value="${v}"${theme === v ? " selected" : ""}>${l}</option>`).join("")}</select></div></section>
+  const rail = `<section class="card panel"><h2>Appearance</h2><div class="field"><label for="theme">Theme</label><select id="theme" data-act="theme">${[["dark", "Dark"], ["light", "Light"], ["system", "Match device"]].map(([v, l]) => `<option value="${v}"${theme === v ? " selected" : ""}>${l}</option>`).join("")}</select></div></section>
     <section class="card panel"><h2>Your data</h2><p class="muted">Everything stays in this browser on this device. Download a backup now and then, and use it to move to another device.</p>
       <div class="btn-row"><button type="button" class="btn small" data-act="export">Download backup</button>
       <label class="btn small ghost file-btn">Restore backup<input type="file" accept="application/json,.json" data-act="import"></label></div>

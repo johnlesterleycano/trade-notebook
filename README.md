@@ -1,6 +1,6 @@
 # Trade Notebook
 
-A trade calculator and journal for learning to invest and trade **Philippine stocks** (PSE, for example through COL Financial) and **US stocks** (for example through Gotrade). It shows the true cost of a trade before you place it, sizes the position from your risk limit, and keeps a journal so your own history becomes the teacher.
+A dark, trading-desk-style calculator and journal for learning to invest and trade **Philippine stocks** (PSE, for example through COL Financial) and **US stocks** (for example through Gotrade). It shows the true cost of a trade before you place it, sizes the position from your risk limit, and keeps a journal so your own history becomes the teacher.
 
 > For learning only, not financial advice. Fee and tax rates are defaults: check them against your broker and change them in Settings.
 
@@ -14,7 +14,7 @@ New to investing? Start with the **[learning roadmap](docs/LEARN.md)**, then the
 | **Journal** | Every trade with its plan (a stop-loss and a reason are required), how you felt, and once sold, the result and a lesson. Tick "Practice" for paper trades. Open positions and the total planned loss sit on the side. |
 | **Review** | Win rate, average win and loss, expectancy, average R, profit factor, a running-total chart, results by month, by mood and by setup, and habits to watch (stops ignored, missing lessons). |
 | **Learn** | The roadmap as a checklist: foundation, market basics, accounts, investing first, analysis, then practice and small trades. |
-| **Settings** | Trading money, max risk per trade, the peso–dollar rate, every fee and tax rate, theme, and backup / restore. |
+| **Settings** | Trading money, max risk per trade, the peso–dollar rate, every fee and tax rate, theme (dark by default, light or match device), and backup / restore. |
 
 Your data stays in your browser (localStorage). Download a backup from Settings to keep it safe or move it to another device.
 

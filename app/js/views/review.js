@@ -17,8 +17,11 @@ function equityChart(pts) {
   [hi, (hi + lo) / 2, lo].forEach(t => { s += `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"${t === 0 ? ' stroke-width="1.5"' : ""}/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${k(t)}</text>`; });
   if (lo < 0) s += `<line x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--muted)" stroke-dasharray="3 3"/>`;
   const all = [{ total: 0 }, ...pts], xa = i => L + (W - L - R) * (i / Math.max(1, all.length - 1));
-  s += `<polyline points="${all.map((p, i) => xa(i) + "," + y(p.total)).join(" ")}" fill="none" stroke="var(--pink)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-  pts.forEach((p, i) => { s += `<circle cx="${xa(i + 1)}" cy="${y(p.total)}" r="3.5" fill="var(--surface)" stroke="var(--pink)" stroke-width="2"><title>${esc(fmtDate(p.date))} ${esc(p.symbol)}: ${esc(peso(p.total))}</title></circle>`; });
+  const line = all.map((p, i) => xa(i) + "," + y(p.total)).join(" "), base = y(Math.max(lo, 0));
+  s += `<defs><linearGradient id="eqFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>`;
+  s += `<polygon points="${xa(0)},${base} ${line} ${xa(all.length - 1)},${base}" fill="url(#eqFill)"/>`;
+  s += `<polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  pts.forEach((p, i) => { s += `<circle cx="${xa(i + 1)}" cy="${y(p.total)}" r="3.5" fill="var(--surface)" stroke="${p.total >= 0 ? "var(--gain)" : "var(--loss)"}" stroke-width="2"><title>${esc(fmtDate(p.date))} ${esc(p.symbol)}: ${esc(peso(p.total))}</title></circle>`; });
   return s + `<text x="${L}" y="${H - 6}">First trade</text><text x="${W - R}" y="${H - 6}" text-anchor="end">Latest</text></svg>`;
 }
 
@@ -55,8 +58,8 @@ export function reviewView() {
     <section class="card sec"><div class="card-head"><h2>By month</h2></div>${table(["Month", "Trades", "Result"], months.map(m => `<tr><td>${esc(mLabel(m.month))}</td><td>${m.count}</td>${pnlCell(m.pnl)}</tr>`).reverse())}</section>
     <section class="card sec"><div class="card-head"><h2>By how you felt</h2></div>${grp(emo)}<p class="note">If FOMO or revenge trades lose money, that's your rule: don't trade in that mood.</p></section>
     <section class="card sec"><div class="card-head"><h2>By setup</h2></div>${grp(setups)}<p class="note">Do more of the setups that work and drop the ones that don't.</p></section>`;
-  const rail = `<div class="hero"><div class="eyebrow">Realized result</div><div class="hero-big money">${esc(signed(s.total))}</div><p class="hero-sub">${s.count} closed · ${s.open} open · after fees</p>
-    <div class="hero-stats"><div><b>${pct(s.winRate)}</b><span>Win rate</span></div><div><b class="money">${esc(signed(s.expectancy))}</b><span>Per trade</span></div></div></div>
+  const rail = `<div class="hero"><div class="eyebrow">Realized result</div><div class="hero-big money ${s.total > 0 ? "pos" : s.total < 0 ? "neg" : ""}">${esc(signed(s.total))}</div><p class="hero-sub">${s.count} closed · ${s.open} open · after fees</p>
+    <div class="hero-stats"><div><b>${pct(s.winRate)}</b><span>Win rate</span></div><div><b class="money ${s.expectancy > 0 ? "pos" : s.expectancy < 0 ? "neg" : ""}">${esc(signed(s.expectancy))}</b><span>Per trade</span></div></div></div>
     <p><span class="chip ${verdict[0]}">${esc(verdict[1])}</span></p>
     <section class="card panel"><h2>Habits to watch</h2><ul class="tips">${habits.join("")}</ul></section>`;
   return `<div class="st"><div class="st-main">${main}</div><aside class="st-rail" aria-label="Summary">${rail}</aside></div>`;

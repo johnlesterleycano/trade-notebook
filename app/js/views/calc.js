@@ -99,7 +99,7 @@ export function calcRail() {
     <div class="hero-stats">
       <div><b class="money">${cur(be, market)}</b><span>Break-even sell price</span></div>
       <div><b>${pct(feePct, 2)}</b><span>Fees to buy and sell</span></div>
-      <div><b class="money">${maxLoss ? cur(maxLoss, market) : "–"}</b><span>Loss at your stop</span></div>
+      <div><b class="money${maxLoss ? " neg" : ""}">${maxLoss ? cur(maxLoss, market) : "–"}</b><span>Loss at your stop</span></div>
       <div><b>${rr ? rr.toFixed(1) + " : 1" : "–"}</b><span>Reward : risk</span></div>
     </div>
   </div>

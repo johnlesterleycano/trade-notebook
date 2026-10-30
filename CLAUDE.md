@@ -1,6 +1,6 @@
 # Trade Notebook: notes for Claude
 
-A trade calculator and journal for learning PH (PSE via COL Financial) and US (via Gotrade) stocks. Static site on GitHub Pages (`app/`), data in the browser's localStorage with a JSON backup. Sister project of Payday Money Plan (finance-tracker): same stack, design tokens and rules.
+A trade calculator and journal for learning PH (PSE via COL Financial) and US (via Gotrade) stocks. Static site on GitHub Pages (`app/`), data in the browser's localStorage with a JSON backup. Sister project of Payday Money Plan (finance-tracker): same stack and rules, its own "trading desk" look.
 
 ## Hard rules
 - **This repo is public. Never commit personal data**: no real trades, amounts, names, backups or exports. Tests use synthetic fixtures only (made-up symbols like ABC, XYZ). Run `sh scripts/scan.sh` before committing; CI runs it too.
@@ -14,11 +14,13 @@ A trade calculator and journal for learning PH (PSE via COL Financial) and US (v
 - `app/js/store.js`: state `S` {settings, trades, learn}, `normalizeData`, localStorage key `trade-notebook-v1`, backup export/import.
 - `app/js/views/*.js`: return HTML strings. **Every interpolated value goes through `esc()` or a number formatter.**
 - `app/js/main.js`: sections, event delegation (`data-act`, `data-set`, `data-learn`), keys 1–5. `app/js/forms.js`: the trade form on a native `<dialog>`.
-- `app/js/theme.js`: plain script in `<head>` (CSP forbids inline scripts); localStorage `trade-notebook-theme-v1`.
+- `app/js/theme.js`: plain script in `<head>` (CSP forbids inline scripts); always sets `data-theme` to `dark` (default), `light` or `system`; localStorage `trade-notebook-theme-v2`.
 
 ## Design
 - Desktop-first. From 900px: sidebar, statement + rail (`.st > .st-main + .st-rail`), centered dialog. From 1100px the rail sits on the right, its first panel sticky (`.st-rail.static` opts out). Below 900px: bottom tab bar, cards, bottom sheet.
-- Pink tokens on `:root` in `app/css/app.css`, copied from Payday Money Plan; green/amber/red only for gain/warning/loss.
+- Trading desk look (chosen 2026-10-30, replacing the pink Payday Money Plan palette): navy-black panels, electric-blue accent `--accent` #2962FF, `--gain` green, `--loss` red, `--warn` amber; tokens on `:root` in `app/css/app.css`. Dark is the default; light tokens apply under `[data-theme="light"]` and under `[data-theme="system"]` on a light device.
+- Green/red only for gains and losses (and amber for warnings); blue is the only accent. White text sits on `--accent`; accent-colored text uses `--accent-ink`. Every text/background pair is ≥ 4.5:1 in both themes: re-check when changing a token.
+- Fonts: Inter for text, JetBrains Mono for amounts, prices, share counts and symbols (`.money`, fee tables, decimal inputs, `.hero-big`).
 
 ## Decisions
 - One journal entry per round trip (buy, later sell), not separate fills: simpler for a beginner and enough for R-multiples. Adding to a position = a new entry; open positions average them.
