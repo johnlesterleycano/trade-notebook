@@ -1,0 +1,14 @@
+# Personal data: never commit (also enforced by scripts/scan.sh)
+trade-notebook-backup*.json
+*.xlsx
+*.xls
+*.csv
+data/
+*.local.md
+*.local.txt
+.env*
+
+# Tooling
+.DS_Store
+node_modules/
+.claude/settings.local.json

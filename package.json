@@ -1,0 +1,6 @@
+{
+  "name": "trade-notebook",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test --test-reporter=tap tests/*.test.js" }
+}
